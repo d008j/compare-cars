@@ -4,6 +4,7 @@ package com.demo.comparecars.data;
 import com.demo.comparecars.data.enums.FuelType;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -11,7 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "fuel_performance_info")
 public class FuelPerformanceInfo {
 
-    private FuelType fuelType;
+    @Indexed
+    private String fuelType;
     private double mileage;
     private double fuelTankCapacity;
     private String emissionNormCompliance;
