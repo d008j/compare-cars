@@ -1,7 +1,6 @@
 package com.demo.comparecars.data;
 
 
-import com.demo.comparecars.data.enums.FuelType;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.index.Indexed;

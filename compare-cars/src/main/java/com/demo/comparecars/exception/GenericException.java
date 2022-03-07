@@ -11,8 +11,8 @@ public class GenericException extends RuntimeException {
 
     public GenericException(String error, HttpStatus httpStatus) {
         super(error);
-        this.error=error;
-        this.httpStatus=httpStatus;
+        this.error = error;
+        this.httpStatus = httpStatus;
     }
 
 }

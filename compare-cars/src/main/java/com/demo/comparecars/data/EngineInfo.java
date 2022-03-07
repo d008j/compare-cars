@@ -1,8 +1,6 @@
 package com.demo.comparecars.data;
 
 
-import com.demo.comparecars.data.enums.DriveType;
-import com.demo.comparecars.data.enums.TransmissionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

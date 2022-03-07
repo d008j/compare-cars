@@ -1,9 +1,7 @@
 package com.demo.comparecars.controller;
 
 
-import com.demo.comparecars.data.Car;
 import com.demo.comparecars.data.ScoreConfig;
-import com.demo.comparecars.service.CarService;
 import com.demo.comparecars.service.ScoreConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,13 +1,13 @@
 package com.demo.comparecars.service;
 
 import com.demo.comparecars.data.*;
+import com.demo.comparecars.exception.GenericException;
 import com.demo.comparecars.repository.CarRepository;
 import com.demo.comparecars.repository.ScoreConfigRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,7 +38,7 @@ public class CarServiceTest {
     CarService carService;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         car1 = new Car();
         car1.setId("1");
         car1.setPrice(100);
@@ -144,14 +144,14 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testSave(){
+    public void testSave() {
         Car createdCar = carService.save(car1);
         System.out.println(createdCar.toString());
         Assert.assertNotNull(createdCar);
     }
 
     @Test
-    public void testFindSimilarCars(){
+    public void testFindSimilarCars() {
 
 
         List<Car> similarCars = carService.findSimilarCars(car1.getId());
@@ -168,9 +168,17 @@ public class CarServiceTest {
         CarComparisonRequest carComparisonRequest = CarComparisonRequest.builder().otherIds(idsList).baseCarId(car1.getId()).build();
 
         HashMap<String, List<CarAttribute>> response = carService.compareCars(carComparisonRequest);
-        System.out.println("Response is "+response);
-    }
+        System.out.println("Response is " + response);
+        Assert.assertNotNull(response);
 
+        idsList.remove(1);
+        Car carForException = new Car();
+        carForException.setId("5");
+        idsList.add("5");
+
+        CarComparisonRequest exceptionRequest = CarComparisonRequest.builder().otherIds(idsList).baseCarId(car1.getId()).build();
+        Assert.assertThrows(Exception.class, () ->carService.compareCars(exceptionRequest));
+    }
 
 
 }

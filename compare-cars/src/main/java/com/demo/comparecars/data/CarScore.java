@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @EqualsAndHashCode(cacheStrategy = EqualsAndHashCode.CacheStrategy.LAZY)
-public class CarScore implements  Comparable<CarScore>{
+public class CarScore implements Comparable<CarScore> {
 
     private Car car;
     private int score;

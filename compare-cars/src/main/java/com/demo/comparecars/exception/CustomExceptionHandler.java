@@ -1,5 +1,7 @@
 package com.demo.comparecars.exception;
 
+import com.demo.comparecars.controller.CarDetailController;
+import com.demo.comparecars.controller.ScoreConfigController;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -11,9 +13,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import com.demo.comparecars.controller.CarDetailController;
-import com.demo.comparecars.controller.ScoreConfigController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleBusinessException(Exception exception, WebRequest webRequest) {
 
         Map<String, String> errors = new HashMap<>();
-        if(exception instanceof GenericException) {
+        if (exception instanceof GenericException) {
             errors.put("message", exception.getMessage());
             return new ResponseEntity<>(errors, ((GenericException) exception).getHttpStatus());
         } else {

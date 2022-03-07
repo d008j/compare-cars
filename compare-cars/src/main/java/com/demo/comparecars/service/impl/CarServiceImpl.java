@@ -5,24 +5,24 @@ import com.demo.comparecars.exception.GenericException;
 import com.demo.comparecars.repository.CarRepository;
 import com.demo.comparecars.repository.ScoreConfigRepository;
 import com.demo.comparecars.service.CarService;
+import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import javafx.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.jar.Attributes;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class CarServiceImpl implements CarService {
 
+    private final Set<Class> BASE_TYPES = new HashSet(Arrays.asList(
+            String.class, Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
     @Autowired
     CarRepository carRepository;
-
     @Autowired
     ScoreConfigRepository scoreConfigRepository;
 
@@ -128,30 +128,32 @@ public class CarServiceImpl implements CarService {
     public HashMap<String, List<CarAttribute>> compareCars(CarComparisonRequest request) throws IllegalAccessException {
         HashMap<String, List<CarAttribute>> carAttributes = new HashMap<>();
         Car baseCar = carRepository.findById(request.getBaseCarId()).get();
+        boolean showOnlyDifference = request.isShowOnlyDifference();
+        if(baseCar == null)
+            throw new GenericException("Car with given id not found", HttpStatus.NOT_FOUND);
         log.info("Base car is {}", baseCar);
         List<Car> cars = new ArrayList<>();
         for (String eachId : request.getOtherIds()) {
             Car currentCar = carRepository.findById(eachId).get();
+            if(currentCar == null)
+                throw new GenericException("Car with given id not found", HttpStatus.NOT_FOUND);
             log.info("current car is {}", currentCar);
             cars.add(currentCar);
         }
 
         List<String> changedProperties = new ArrayList<>();
         for (Car eachCar : cars) {
-            difference(baseCar, eachCar, carAttributes, changedProperties, null, baseCar.getId(), eachCar.getId());
+            difference(baseCar, eachCar, carAttributes, null, baseCar.getId(), eachCar.getId(),showOnlyDifference);
 
         }
         return carAttributes;
     }
 
-    private final Set<Class> BASE_TYPES = new HashSet(Arrays.asList(
-            String.class, Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
-
     public boolean isBaseType(Class clazz) {
         return BASE_TYPES.contains(clazz);
     }
 
-    private void difference(Object s1, Object s2, HashMap<String, List<CarAttribute>> carAttributes, List<String> changedProperties, String parent, String car1Id, String car2Id) throws IllegalAccessException {
+    private void difference(Object s1, Object s2, HashMap<String, List<CarAttribute>> carAttributes, String parent, String car1Id, String car2Id , boolean showOnlyDifference) throws IllegalAccessException {
         for (Field field : s1.getClass().getDeclaredFields()) {
             if (parent == null) {
                 parent = s1.getClass().getSimpleName();
@@ -173,10 +175,11 @@ public class CarServiceImpl implements CarService {
                     if (!Objects.equals(value1, value2)) {
                         addInResponse(carAttributes, parent, field.getName(), pair1, pair2, true);
                     } else {
-                        addInResponse(carAttributes, parent, field.getName(), pair1, pair2, false);
+                        if(!showOnlyDifference)
+                            addInResponse(carAttributes, parent, field.getName(), pair1, pair2, false);
                     }
                 } else {
-                    difference(value1, value2, carAttributes, changedProperties, parent + "." + field.getName(), car1Id, car2Id);
+                    difference(value1, value2, carAttributes, parent + "." + field.getName(), car1Id, car2Id, showOnlyDifference);
                 }
             }
         }

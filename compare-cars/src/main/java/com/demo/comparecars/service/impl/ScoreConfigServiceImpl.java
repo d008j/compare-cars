@@ -24,12 +24,12 @@ public class ScoreConfigServiceImpl implements ScoreConfigService {
 
     @Override
     public List<ScoreConfig> getAll() {
-        return  scoreConfigRepository.findAll();
+        return scoreConfigRepository.findAll();
     }
 
     @Override
     public ScoreConfig update(ScoreConfig scoreConfig) {
-        return  scoreConfigRepository.save(scoreConfig);
+        return scoreConfigRepository.save(scoreConfig);
     }
 
     @Override

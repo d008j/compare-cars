@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/cars")
 public class CarDetailController {
@@ -44,7 +42,7 @@ public class CarDetailController {
 
     }
 
-//    todo exception
+    //    todo exception
     @PostMapping({"/compareCars"})
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> compareCars(@RequestBody CarComparisonRequest request) throws IllegalAccessException {

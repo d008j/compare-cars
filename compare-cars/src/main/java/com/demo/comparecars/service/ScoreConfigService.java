@@ -9,8 +9,11 @@ import java.util.List;
 public interface ScoreConfigService {
 
     ScoreConfig save(ScoreConfig scoreConfig);
+
     List<ScoreConfig> getAll();
+
     ScoreConfig update(ScoreConfig scoreConfig);
+
     void delete(String id);
 
 }
