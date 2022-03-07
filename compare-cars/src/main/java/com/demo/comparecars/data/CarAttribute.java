@@ -1,10 +1,10 @@
 package com.demo.comparecars.data;
 
+import javafx.util.Pair;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.util.Pair;
 
 import java.util.List;
 

@@ -29,7 +29,6 @@ public class Car {
     private String brand;
     private String model;
     private String variant;
-//    todo image
     private String image;
     @Indexed
     private double price;

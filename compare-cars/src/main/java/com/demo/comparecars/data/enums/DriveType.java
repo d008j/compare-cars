@@ -2,7 +2,7 @@ package com.demo.comparecars.data.enums;
 
 public enum DriveType {
 
-    FWD("FWD"),RWD("RWD");
+    MON("monday"),RWD("RWD");
 
     private String fieldName;
 

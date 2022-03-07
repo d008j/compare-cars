@@ -1,8 +1,6 @@
 package com.demo.comparecars.data;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
